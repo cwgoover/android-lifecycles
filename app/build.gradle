@@ -49,6 +49,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
     compile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
     compile 'com.android.support:support-v4:' + rootProject.supportLibVersion
+    compile 'com.android.support:design:' + rootProject.supportLibVersion
     testCompile 'junit:junit:4.12'
     compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion

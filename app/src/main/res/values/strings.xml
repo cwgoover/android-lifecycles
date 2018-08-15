@@ -18,4 +18,6 @@
     <string name="app_name">Lifecycle codelab</string>
     <string name="seconds">%d seconds elapsed</string>
     <string name="location">Location</string>
+
+    <string name="menu_item_list">List</string>
 </resources>

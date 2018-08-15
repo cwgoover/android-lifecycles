@@ -27,6 +27,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.example.android.lifecycles.main.ChronoMainActivity"
+            android:theme="@style/AppThemeNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.example.android.lifecycles.step1.ChronoActivity1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,8 +72,6 @@
         <activity android:name="com.example.android.lifecycles.step5_solution.Activity_step5">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
