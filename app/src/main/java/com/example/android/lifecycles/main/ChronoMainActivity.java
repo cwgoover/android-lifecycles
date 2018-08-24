@@ -1,13 +1,13 @@
 package com.example.android.lifecycles.main;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,14 +16,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.PopupMenu;
 
 import com.example.android.codelabs.lifecycle.R;
+import com.example.android.lifecycles.main.data.Model;
+import com.example.android.lifecycles.main.ui.LocationFragment;
+import com.example.android.lifecycles.main.util.MiscUtil;
 
 /**
- * @author Erica Cao (i352072)
- * @email erica.cao@sap.com
+ * @author Erica Cao
  * @since 2018/8/14
  */
 public class ChronoMainActivity extends AppCompatActivity {
@@ -39,14 +40,10 @@ public class ChronoMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chrono);
         setupToolbal();
+        // FIXME: user can pick up each one
+        addView(Model.LocationBounder);
 
-        // The ViewModelStore provides a new ViewModel or one previously created.
-        ChronometerViewModel chronometerViewModel
-                = ViewModelProviders.of(this).get(ChronometerViewModel.class);
-
-        startChronometer(chronometerViewModel);
-
-        listAllActivities();
+        mMyActivityInfo = MiscUtil.listAllActivities(this);
     }
 
     @Override
@@ -68,33 +65,19 @@ public class ChronoMainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setupToolbal() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-    private void startChronometer(ChronometerViewModel chronometerViewModel) {
-        Chronometer chronometer = findViewById(R.id.chronometer);
-        if (chronometerViewModel.getStartTime() == 0) {
-            // If the start date is not defined, it's a new ViewModel so set it.
-            long base = SystemClock.elapsedRealtime();
-            chronometerViewModel.setStartTime(base);
-            chronometer.setBase(base);
-        } else {
-            // Otherwise the ViewModel has been retained, set the chronometer's base to the original
-            // starting time.
-            chronometer.setBase(chronometerViewModel.getStartTime());
-        }
-        chronometer.start();
-    }
-
-    private void listAllActivities() {
-        PackageManager pm = getPackageManager();
-        String packageName = getApplicationContext().getPackageName();
-        try {
-            mMyActivityInfo = pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES).activities;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        // Checking permission in the fragment can't get response:
+        // 1. In AppCompatActivity use the method ActivityCompat.requestpermissions
+        // 2. In v4 support fragment you should use requestpermissions
+        // 3. Catch is if you call AppcompatActivity.requestpermissions in your fragment then callback will come to activity and not fragment
+        // 4. Make sure to call super.onRequestPermissionsResult from the activity's onRequestPermissionsResult.
+        // Reference: https://stackoverflow.com/questions/35989288/onrequestpermissionsresult-not-being-called-in-fragment-if-defined-in-both-fragm
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (currentFragment != null && currentFragment instanceof LocationFragment) {
+            currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -127,6 +110,18 @@ public class ChronoMainActivity extends AppCompatActivity {
             }
         });
         popupMenu.show();
+    }
+
+    private void setupToolbal() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void addView(Model model) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.container, Model.getModelFragment(model));
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 }

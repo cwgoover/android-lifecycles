@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/hello_textview"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        tools:text="1 seconds"/>
 
 </RelativeLayout>

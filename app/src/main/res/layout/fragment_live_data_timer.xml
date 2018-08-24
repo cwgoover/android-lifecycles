@@ -2,8 +2,8 @@
 <layout>
 
     <data>
-        <import type="com.example.android.lifecycles.main.ChronometerViewModel"/>
-        <variable name="chrono" type="com.example.android.lifecycles.main.ChronometerViewModel" />
+        <import type="com.example.android.lifecycles.main.viewmodel.ChronometerViewModel"/>
+        <variable name="chrono" type="com.example.android.lifecycles.main.viewmodel.ChronometerViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,11 +25,11 @@
             android:layout_centerVertical="true"
             android:text="Hello World!" />
 
-        <Chronometer
+        <TextView
             android:id="@+id/chronometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/hello_textview"
+            android:layout_below="@+id/hello_textview"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </layout>
