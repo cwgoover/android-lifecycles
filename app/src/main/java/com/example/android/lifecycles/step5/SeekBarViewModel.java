@@ -16,6 +16,7 @@
 
 package com.example.android.lifecycles.step5;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -24,5 +25,13 @@ import android.arch.lifecycle.ViewModel;
  */
 public class SeekBarViewModel extends ViewModel {
 
-    public MutableLiveData<Integer> seekbarValue = new MutableLiveData<>();
+    private MutableLiveData<Integer> mSeekbarValue = new MutableLiveData<>();
+
+    public void setSeekbarValue(int value) {
+        mSeekbarValue.setValue(value);
+    }
+
+    public LiveData<Integer> getSeekbarValue() {
+        return mSeekbarValue;
+    }
 }

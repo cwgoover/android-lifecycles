@@ -26,6 +26,7 @@ import com.example.android.lifecycles.main.util.MiscUtil;
 /**
  * @author Erica Cao
  * @since 2018/8/14
+ * Reference: https://codelabs.developers.google.com/codelabs/android-lifecycles/#0
  */
 public class ChronoMainActivity extends AppCompatActivity {
 

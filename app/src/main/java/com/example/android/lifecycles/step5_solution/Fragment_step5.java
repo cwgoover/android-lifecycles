@@ -20,6 +20,7 @@ package com.example.android.lifecycles.step5_solution;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -40,8 +41,9 @@ public class Fragment_step5 extends Fragment {
 
     private SeekBarViewModel mSeekBarViewModel;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_step5, container, false);
@@ -54,6 +56,7 @@ public class Fragment_step5 extends Fragment {
         return root;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void subscribeSeekBar() {
 
         // Update the ViewModel when the SeekBar is changed.
@@ -62,7 +65,7 @@ public class Fragment_step5 extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     Log.d("Step5", "Progress changed!");
-                    mSeekBarViewModel.seekbarValue.setValue(progress);
+                    mSeekBarViewModel.setSeekbarValue(progress);
                 }
             }
 
@@ -74,7 +77,7 @@ public class Fragment_step5 extends Fragment {
         });
 
         // Update the SeekBar when the ViewModel is changed.
-        mSeekBarViewModel.seekbarValue.observe(getActivity(), new Observer<Integer>() {
+        mSeekBarViewModel.getSeekbarValue().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer value) {
                 if (value != null) {
